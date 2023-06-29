@@ -22,6 +22,29 @@ app.get('/health', async (req, res) => {
   res.status(200).send({ status: 'OK' })
 })
 
+/**
+ * /user?handle=https://mikecoats.social/users/mike
+ * @param {string} handle
+ */
+app.get('/user', async (req, res) => {
+  // Missing handles mean no lookups!
+  const userUrl = req.query.handle
+  if (userUrl === undefined || userUrl === '') {
+    res.status(404).send({ status: 'Cannot lookup user without handle.' })
+    return
+  }
+
+  // Try to grab the user as a JSON object. If we fail for any reason
+  // tell the user.
+  try {
+    const response = await fetch(userUrl, { headers: [['Accept', 'application/activity+json']] })
+    const user = await response.json()
+    res.status(200).send({ user })
+  } catch (_err) {
+    res.status(500).send({ status: `Failed to lookup handle '${userUrl}'` })
+  }
+})
+
 // Grab the port from the `.env` file, an environment variable or just
 // default to good old 3000.
 const port = process.env.PORT || 3000

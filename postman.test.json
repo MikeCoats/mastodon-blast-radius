@@ -41,6 +41,136 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "User with Missing Handle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is Not Found\", function () {",
+							"    pm.response.to.have.status(404)",
+							"})",
+							"pm.test('Status warns about handle', function () {",
+							"    var jsonData = pm.response.json()",
+							"    pm.expect(jsonData.status).to.include('Cannot')",
+							"    pm.expect(jsonData.status).to.include('handle')",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/user?handle=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "handle",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User with Handle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", function () {",
+							"    pm.response.to.have.status(200)",
+							"})",
+							"pm.test('Response includes user', function () {",
+							"    var jsonData = pm.response.json()",
+							"    pm.expect(jsonData).to.have.key('user')",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/user?handle=https://mikecoats.social/users/mike",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "handle",
+							"value": "https://mikecoats.social/users/mike"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User with Broken Handle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is Not OK\", function () {",
+							"    pm.response.to.have.status(500)",
+							"})",
+							"pm.test('Status warns about handle', function () {",
+							"    var jsonData = pm.response.json()",
+							"    pm.expect(jsonData.status).to.include('Failed')",
+							"    pm.expect(jsonData.status).to.include('handle')",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/user?handle=https://example.org/users/example",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "handle",
+							"value": "https://example.org/users/example"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
