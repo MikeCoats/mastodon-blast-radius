@@ -94,6 +94,28 @@ app.get('/followers', async (req, res) => {
   }
 })
 
+/**
+ * /following?handle=https://mikecoats.social/users/mike
+ * @param {string} handle
+ */
+app.get('/following', async (req, res) => {
+  // Missing handles mean no lookups!
+  const userUrl = req.query.handle
+  if (userUrl === undefined || userUrl === '') {
+    res.status(404).send({ status: 'Cannot lookup user\'s follows without handle.' })
+    return
+  }
+
+  try {
+    const user = await getActivityJson(userUrl)
+    const followingInfo = await getActivityJson(user.following)
+    const following = await getPagedOrderedCollection(followingInfo.first)
+    res.status(200).send({ following })
+  } catch (_err) {
+    res.status(500).send({ status: `Failed to lookup follows for handle '${userUrl}'` })
+  }
+})
+
 // Grab the port from the `.env` file, an environment variable or just
 // default to good old 3000.
 const port = process.env.PORT || 3000
