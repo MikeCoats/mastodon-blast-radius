@@ -116,6 +116,17 @@ app.get('/following', async (req, res) => {
   }
 })
 
+/**
+ * Serve bootstrap distribution out of the node modules directory.
+ */
+app.use('/vendor/bootstrap', express.static('./node_modules/bootstrap/dist'))
+
+/**
+ * Serve the website straight out of the source directory. Can't get
+ * much more AGPL than that!
+ */
+app.use(express.static('.'))
+
 // Grab the port from the `.env` file, an environment variable or just
 // default to good old 3000.
 const port = process.env.PORT || 3000
