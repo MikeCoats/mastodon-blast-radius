@@ -42,3 +42,11 @@ GNU Affero General Public License for more details.
 You should have received
 [a copy of the GNU Affero General Public License](./LICENSE.md) along
 with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+## Credits
+
+[Elephant](https://thenounproject.com/icon/elephant-1144400/) by
+[TRAVIS BIRD](https://thenounproject.com/travisrooster/) from
+[Noun Project](https://thenounproject.com/browse/icons/term/elephant/) made
+available under
+[Creative Commons Attribution License CC-BY 3.0](/CC-BY-3.0.txt).
